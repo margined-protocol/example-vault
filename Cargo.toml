@@ -1,0 +1,31 @@
+[package]
+authors      = ["shapeshed <go@margined.io>"]
+categories   = ["wasm"]
+description  = "Example implementation of Margined Vault"
+edition      = "2021"
+homepage     = "https://github.com/margined-protocol/example-vault"
+keywords = ["cosmos", "osmosis", "vault"]
+license      = "MIT OR Apache-2.0"
+name         = "example-vault"
+publish      = false
+readme       = "README.md"
+repository   = "https://github.com/margined-protocol/example-vault"
+resolver     = "2"
+rust-version = "1.76.0"
+version      = "0.0.1"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+backtraces = ["cosmwasm-std/backtraces"]
+library    = []
+
+[dependencies]
+cosmwasm-std      = "1.5.3"
+margined-vault   = { version = "0.1.0", path = "packages/margined-vault" }
+
+[dev-dependencies]
+cw-vault-standard = "0.4.0"
+# osmosis-test-tube = "22.1.0"
+osmosis-test-tube = { git = "https://github.com/osmosis-labs/test-tube.git" }
