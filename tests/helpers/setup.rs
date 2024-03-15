@@ -1,8 +1,7 @@
-extern crate margined_vault;
 use super::helpers::store_code;
 use cosmwasm_std::Coin;
-use margined_vault::msg::InstantiateMsg;
 use osmosis_test_tube::{Module, OsmosisTestApp, SigningAccount, Wasm};
+use vaultenator::msg::InstantiateMsg;
 
 pub struct ContractInfo {
     pub addr: String,

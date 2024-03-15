@@ -4,7 +4,7 @@ categories   = ["wasm"]
 description  = "Example implementation of Margined Vault"
 edition      = "2021"
 homepage     = "https://github.com/margined-protocol/example-vault"
-keywords = ["cosmos", "osmosis", "vault"]
+keywords     = ["cosmos", "osmosis", "vault"]
 license      = "MIT OR Apache-2.0"
 name         = "example-vault"
 publish      = false
@@ -23,10 +23,10 @@ library    = []
 
 [dependencies]
 cosmwasm-schema = "2.0.0"
-cosmwasm-std      = "1.5.3"
-cw-utils = "1.0.3"
-margined-vault   = { version = "0.1.0", path = "packages/margined-vault" }
-serde = "1.0.197"
+cosmwasm-std    = "1.5.3"
+cw-utils        = "1.0.3"
+serde           = "1.0.197"
+vaultenator     = { version = "0.0.1", path = "../vaultenator" }
 
 [dev-dependencies]
 cw-vault-standard = "0.4.0"

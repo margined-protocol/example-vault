@@ -684,9 +684,9 @@ dependencies = [
  "cosmwasm-std",
  "cw-utils",
  "cw-vault-standard",
- "margined-vault",
  "osmosis-test-tube",
  "serde",
+ "vaultenator",
 ]
 
 [[package]]
@@ -1111,22 +1111,6 @@ name = "log"
 version = "0.4.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "90ed8c1e510134f979dbc4f070f87d4313098b704861a105fe34231c70a3901c"
-
-[[package]]
-name = "margined-vault"
-version = "0.1.0"
-dependencies = [
- "cosmwasm-schema 1.5.3",
- "cosmwasm-std",
- "cw-controllers",
- "cw-storage-plus",
- "cw-utils",
- "cw-vault-standard",
- "cw2",
- "osmosis-std",
- "serde",
- "thiserror",
-]
 
 [[package]]
 name = "memchr"
@@ -2339,6 +2323,22 @@ name = "uuid"
 version = "1.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f00cc9702ca12d3c81455259621e676d0f7251cec66a21e98fe2e9a37db93b2a"
+
+[[package]]
+name = "vaultenator"
+version = "0.0.1"
+dependencies = [
+ "cosmwasm-schema 1.5.3",
+ "cosmwasm-std",
+ "cw-controllers",
+ "cw-storage-plus",
+ "cw-utils",
+ "cw-vault-standard",
+ "cw2",
+ "osmosis-std",
+ "serde",
+ "thiserror",
+]
 
 [[package]]
 name = "version_check"

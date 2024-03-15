@@ -5,7 +5,7 @@ use cosmwasm_std::{
     entry_point, Binary, Deps, DepsMut, Env, Event, MessageInfo, Reply, Response, StdResult,
     Timestamp, Uint128,
 };
-use margined_vault::{
+use vaultenator::{
     admin::Administer,
     config::Configure,
     contract::{Describe, MarginedVault},

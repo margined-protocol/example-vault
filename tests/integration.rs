@@ -1,12 +1,11 @@
 mod helpers;
 extern crate example_vault;
-extern crate margined_vault;
 use cw_vault_standard::{VaultStandardInfoResponse, VaultStandardQueryMsg};
 use example_vault::ExampleConfig;
 use example_vault::ExampleState;
 use helpers::setup::{ContractTester, TestEnv};
-use margined_vault::msg::{ExtensionQueryMsg, MarginedExtensionQueryMsg, QueryMsg};
 use osmosis_test_tube::{Module, Wasm};
+use vaultenator::msg::{ExtensionQueryMsg, MarginedExtensionQueryMsg, QueryMsg};
 
 #[test]
 fn query_standard_info() {
