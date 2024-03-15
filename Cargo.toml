@@ -26,9 +26,10 @@ cosmwasm-schema = "2.0.0"
 cosmwasm-std    = "1.5.3"
 cw-utils        = "1.0.3"
 serde           = "1.0.197"
-vaultenator     = { version = "0.0.1", path = "../vaultenator" }
+vaultenator     = { version = "0.0.1", git = "https://github.com/margined-protocol/vaultentaor.git" }
+# vaultenator     = { version = "0.0.1", path = "../vaultenator" }
 
 [dev-dependencies]
 cw-vault-standard = "0.4.0"
-# osmosis-test-tube = "22.1.0"
 osmosis-test-tube = { git = "https://github.com/osmosis-labs/test-tube.git" }
+# osmosis-test-tube = "22.1.0"
