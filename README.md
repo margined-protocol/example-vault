@@ -2,7 +2,7 @@
 
 <!-- dprint-ignore-start -->
 [![GitHub Actions CI Workflow Status][1]][2]
-[![GitHub Actions Build Workflow Status][1]][2]
+[![GitHub Actions Build Workflow Status][3]][4]
 <!-- dprint-ignore-end -->
 
 An example vault to demonstrate [Vaultenator][1]
