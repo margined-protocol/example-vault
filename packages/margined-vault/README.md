@@ -10,10 +10,10 @@ Tokenfactory.
 
 ## Features
 
-- Administration - Handle opening and pausing contracts
-- Configuration - Manage contract configuration
-- Ownership - Manage contract ownership
-- State - Manage contract state
+- Administration - Handles opening and pausing contracts
+- Configuration - Manages contract configuration
+- Ownership - Manages contract ownership
+- State - Manages contract state
 - CW4626 - CosmWasm Vault Standard compliant interface
 - Tokenfactory - Tokenfactory denoms as vault share tokens
 
