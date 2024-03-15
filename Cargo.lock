@@ -2327,6 +2327,7 @@ checksum = "f00cc9702ca12d3c81455259621e676d0f7251cec66a21e98fe2e9a37db93b2a"
 [[package]]
 name = "vaultenator"
 version = "0.0.1"
+source = "git+https://github.com/margined-protocol/vaultenator.git#5513812740021798ea70f19da4a5dd84adb56435"
 dependencies = [
  "cosmwasm-schema 1.5.3",
  "cosmwasm-std",

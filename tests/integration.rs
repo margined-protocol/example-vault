@@ -1,8 +1,8 @@
 mod helpers;
 extern crate example_vault;
 use cw_vault_standard::{VaultStandardInfoResponse, VaultStandardQueryMsg};
-use example_vault::ExampleConfig;
-use example_vault::ExampleState;
+use example_vault::MyConfig;
+use example_vault::MyState;
 use helpers::setup::{ContractTester, TestEnv};
 use osmosis_test_tube::{Module, Wasm};
 use vaultenator::msg::{ExtensionQueryMsg, MarginedExtensionQueryMsg, QueryMsg};
@@ -42,7 +42,7 @@ fn query_config() {
             let contract_addr = contract_info.addr;
 
             let config = wasm
-                .query::<QueryMsg, ExampleConfig>(
+                .query::<QueryMsg, MyConfig>(
                     &contract_addr,
                     &QueryMsg::VaultExtension(ExtensionQueryMsg::Margined(
                         MarginedExtensionQueryMsg::Config {},
@@ -73,7 +73,7 @@ fn query_state() {
 
             let contract_addr = contract_info.addr;
 
-            let state: ExampleState = wasm
+            let state: MyState = wasm
                 .query(
                     &contract_addr,
                     &QueryMsg::VaultExtension(ExtensionQueryMsg::Margined(

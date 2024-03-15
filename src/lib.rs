@@ -1,5 +1,3 @@
-//pub mod describe;
-//use crate::describe::Describe;
 use cosmwasm_schema::cw_serde;
 use cosmwasm_std::{
     entry_point, Binary, Deps, DepsMut, Env, Event, MessageInfo, Reply, Response, StdResult,
@@ -18,36 +16,43 @@ use vaultenator::{
     state::{ManageState, OWNER},
 };
 
-pub struct ExampleVault;
+// Define a struct for the vault
+pub struct MyVault;
 
-impl Describe for ExampleVault {
-    const CONTRACT_NAME: &'static str = env!("CARGO_PKG_NAME");
-    const VAULT_STANDARD_VERSION: u16 = 1;
-    const VAULT_STANDARD_EXTENSIONS: [&'static str; 2] = ["lockup", "force-unlock"];
-}
-
+// Define a config object for the vault
 #[cw_serde]
-pub struct ExampleConfig {
+pub struct MyConfig {
     pub strategy_cap: Uint128,
     pub strategy_denom: Option<String>,
     pub base_denom: String,
     pub test: String,
 }
 
+// Define a state object for the vault
 #[cw_serde]
-pub struct ExampleState {
+pub struct MyState {
     pub is_open: bool,
     pub is_paused: bool,
     pub last_pause: Timestamp,
 }
 
-// impl Describe for ExampleVault {
-//     const CONTRACT_NAME: &'static str = env!("CARGO_PKG_NAME");
-//     const VAULT_STANDARD_VERSION: u16 = 1;
-//     const VAULT_STANDARD_EXTENSIONS: [&'static str; 2] = ["lockup", "force-unlock"];
-// }
+// Use the default implementations for Own, Administer, Query and ReplyHandler
+// You may provide your own implementations of these.
+impl Own for MyVault {}
+impl Administer<MyState> for MyVault {}
+impl Query<MyConfig, MyState> for MyVault {}
+impl ReplyHandler<MyConfig> for MyVault {}
 
-impl Configure for ExampleConfig {
+// Implement Describe for the vault
+// This is used by the CW4626 standard
+impl Describe for MyVault {
+    const CONTRACT_NAME: &'static str = env!("CARGO_PKG_NAME");
+    const VAULT_STANDARD_VERSION: u16 = 1;
+    const VAULT_STANDARD_EXTENSIONS: [&'static str; 2] = ["lockup", "force-unlock"];
+}
+
+// Implement Configure for the vault
+impl Configure for MyConfig {
     const CONFIG_KEY: &'static str = "config";
 
     fn update_strategy_denom(&mut self, denom: String) {
@@ -67,7 +72,8 @@ impl Configure for ExampleConfig {
     }
 }
 
-impl ManageState for ExampleState {
+// Implement ManageState for the vault
+impl ManageState for MyState {
     const STATE_KEY: &'static str = "state";
 
     fn is_open(&self) -> bool {
@@ -87,7 +93,7 @@ impl ManageState for ExampleState {
     }
 
     fn init_state(deps: &mut DepsMut, env: &Env) -> Result<(), ContractError> {
-        let initial_state = ExampleState {
+        let initial_state = MyState {
             is_open: false,
             is_paused: true,
             last_pause: env.block.time,
@@ -101,12 +107,8 @@ impl ManageState for ExampleState {
     }
 }
 
-impl Own for ExampleVault {}
-impl Administer<ExampleState> for ExampleVault {}
-impl Query<ExampleConfig, ExampleState> for ExampleVault {}
-impl ReplyHandler<ExampleConfig> for ExampleVault {}
-
-impl Handle<ExampleConfig, ExampleState> for ExampleVault {
+// Implment Handle
+impl Handle<MyConfig, MyState> for MyVault {
     fn handle_update_config(
         &self,
         mut deps: DepsMut,
@@ -114,7 +116,7 @@ impl Handle<ExampleConfig, ExampleState> for ExampleVault {
     ) -> Result<Response, ContractError> {
         OWNER.assert_admin(deps.as_ref(), &info.sender)?;
 
-        let config = ExampleConfig::get_from_storage(deps.as_ref())?;
+        let config = MyConfig::get_from_storage(deps.as_ref())?;
         // config.strategy_cap = new_config.strategy_cap;
 
         config.save_to_storage(&mut deps)?;
@@ -139,7 +141,8 @@ impl Handle<ExampleConfig, ExampleState> for ExampleVault {
     }
 }
 
-impl MarginedVault<ExampleConfig, ExampleState> for ExampleVault {}
+// Use the default Vaultenator implementation to inherit the standard interface
+impl MarginedVault<MyConfig, MyState> for MyVault {}
 
 #[cfg_attr(not(feature = "library"), entry_point)]
 pub fn instantiate(
@@ -148,7 +151,7 @@ pub fn instantiate(
     info: MessageInfo,
     msg: InstantiateMsg,
 ) -> Result<Response, ContractError> {
-    ExampleVault.instantiate(deps, env, info, msg)
+    MyVault.instantiate(deps, env, info, msg)
 }
 
 #[cfg_attr(not(feature = "library"), entry_point)]
@@ -158,20 +161,20 @@ pub fn execute(
     info: MessageInfo,
     msg: ExecuteMsg,
 ) -> Result<Response, ContractError> {
-    ExampleVault.execute(deps, env, info, msg)
+    MyVault.execute(deps, env, info, msg)
 }
 
 #[cfg_attr(not(feature = "library"), entry_point)]
 pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
-    ExampleVault.query(deps, env, msg)
+    MyVault.query(deps, env, msg)
 }
 
 #[cfg_attr(not(feature = "library"), entry_point)]
 pub fn reply(deps: DepsMut, env: Env, msg: Reply) -> Result<Response, ContractError> {
-    ExampleVault.reply(deps, env, msg)
+    MyVault.reply(deps, env, msg)
 }
 
 #[cfg_attr(not(feature = "library"), entry_point)]
 pub fn migrate(deps: DepsMut, env: Env, msg: MigrateMsg) -> Result<Response, ContractError> {
-    ExampleVault.migrate(deps, env, msg)
+    MyVault.migrate(deps, env, msg)
 }
