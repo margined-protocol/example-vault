@@ -8,4 +8,3 @@ pub mod ownership;
 pub mod query;
 pub mod reply;
 pub mod state;
-// pub mod structs;
