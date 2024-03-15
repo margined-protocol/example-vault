@@ -6,7 +6,7 @@ use cosmwasm_std::{
 use vaultenator::{
     admin::Administer,
     config::Configure,
-    contract::{Describe, MarginedVault},
+    contract::{Describe, Vaultenator},
     errors::ContractError,
     handlers::Handle,
     msg::{ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg},
@@ -142,7 +142,7 @@ impl Handle<MyConfig, MyState> for MyVault {
 }
 
 // Use the default Vaultenator implementation to inherit the standard interface
-impl MarginedVault<MyConfig, MyState> for MyVault {}
+impl Vaultenator<MyConfig, MyState> for MyVault {}
 
 #[cfg_attr(not(feature = "library"), entry_point)]
 pub fn instantiate(
