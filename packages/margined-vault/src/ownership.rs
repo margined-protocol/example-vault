@@ -113,3 +113,55 @@ pub fn get_ownership_proposal(
 
     Ok(res)
 }
+
+pub trait Own {
+    fn handle_ownership_proposal(
+        &self,
+        deps: DepsMut,
+        info: MessageInfo,
+        env: Env,
+        proposed_owner: String,
+        duration: u64,
+        owner: Admin,
+        proposal: Item<OwnerProposal>,
+    ) -> Result<Response, ContractError> {
+        crate::ownership::handle_ownership_proposal(
+            deps,
+            info,
+            env,
+            proposed_owner,
+            duration,
+            owner,
+            proposal,
+        )
+    }
+
+    fn handle_ownership_proposal_rejection(
+        &self,
+        deps: DepsMut,
+        info: MessageInfo,
+        owner: Admin,
+        proposal: Item<OwnerProposal>,
+    ) -> Result<Response, ContractError> {
+        crate::ownership::handle_ownership_proposal_rejection(deps, info, owner, proposal)
+    }
+
+    fn handle_claim_ownership(
+        &self,
+        deps: DepsMut,
+        info: MessageInfo,
+        env: Env,
+        owner: Admin,
+        proposal: Item<OwnerProposal>,
+    ) -> Result<Response, ContractError> {
+        crate::ownership::handle_claim_ownership(deps, info, env, owner, proposal)
+    }
+
+    fn get_ownership_proposal(
+        &self,
+        deps: Deps,
+        proposal: Item<OwnerProposal>,
+    ) -> StdResult<OwnerProposal> {
+        crate::ownership::get_ownership_proposal(deps, proposal)
+    }
+}

@@ -30,6 +30,7 @@ cw-utils = "1.0.3"
 cw-vault-standard = "0.4.0"
 cw2 = "1.1.2"
 osmosis-std = "0.22.0"
+serde = "1.0.197"
 thiserror = "1.0.57"
 
 [dev-dependencies]

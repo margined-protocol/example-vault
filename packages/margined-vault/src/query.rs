@@ -1,27 +1,24 @@
-use crate::state::{CONFIG, STATE};
-use crate::structs::{ConfigResponse, StateResponse};
-use cosmwasm_std::{Deps, StdResult};
-use cw2::get_contract_version;
+use crate::config::Configure;
+use crate::state::ManageState;
+use cosmwasm_std::{to_json_binary, Binary, Deps, StdError, StdResult};
+use serde::Serialize;
 
-pub fn query_config(deps: Deps) -> StdResult<ConfigResponse> {
-    let config = CONFIG.load(deps.storage).unwrap();
+pub trait Query<C, S>
+where
+    C: Configure + Serialize,
+    S: ManageState + Serialize,
+{
+    fn query_config(deps: Deps) -> StdResult<Binary> {
+        match C::get_from_storage(deps) {
+            Ok(config) => to_json_binary(&config),
+            Err(e) => Err(StdError::generic_err(e.to_string())),
+        }
+    }
 
-    let contract = get_contract_version(deps.storage)?;
-
-    Ok(ConfigResponse {
-        strategy_cap: config.strategy_cap,
-        strategy_denom: config.strategy_denom.unwrap_or_default(),
-        base_denom: config.base_denom,
-        version: contract.version,
-    })
-}
-
-pub fn query_state(deps: Deps) -> StdResult<StateResponse> {
-    let state = STATE.load(deps.storage).unwrap();
-
-    Ok(StateResponse {
-        is_open: state.is_open,
-        is_paused: state.is_paused,
-        last_pause: state.last_pause,
-    })
+    fn query_state(deps: Deps) -> StdResult<Binary> {
+        match S::get_from_storage(deps) {
+            Ok(config) => to_json_binary(&config),
+            Err(e) => Err(StdError::generic_err(e.to_string())),
+        }
+    }
 }

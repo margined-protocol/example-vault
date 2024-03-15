@@ -1,24 +1,33 @@
+use crate::config::Configure;
 use crate::errors::ContractError;
-use crate::state::CONFIG;
-use crate::structs::Config;
 use cosmwasm_std::{DepsMut, Env, Reply, Response, SubMsgResult};
 use osmosis_std::types::osmosis::tokenfactory::v1beta1::MsgCreateDenomResponse;
+use serde::de::DeserializeOwned;
+use serde::Serialize;
+pub const CREATE_STRATEGY_DENOM_REPLY_ID: u64 = 1u64;
 
-pub fn handle_create_strategy_denom_reply(
-    deps: DepsMut,
-    _env: Env,
-    res: Reply,
-) -> Result<Response, ContractError> {
-    let sub_msg_response: SubMsgResult = res.result;
-    let response: MsgCreateDenomResponse = sub_msg_response.try_into()?;
+pub trait ReplyHandler<C>
+where
+    C: Configure + Serialize + DeserializeOwned,
+{
+    fn handle_reply(
+        &self,
+        mut deps: DepsMut,
+        _env: Env,
+        msg: Reply,
+    ) -> Result<Response, ContractError> {
+        match msg.id {
+            CREATE_STRATEGY_DENOM_REPLY_ID => {
+                let sub_msg_response: SubMsgResult = msg.result;
+                let response: MsgCreateDenomResponse = sub_msg_response.try_into()?;
 
-    CONFIG.update(
-        deps.storage,
-        |mut config| -> Result<Config, ContractError> {
-            config.strategy_denom = Some(response.new_token_denom.clone());
-            Ok(config)
-        },
-    )?;
+                let mut config = C::get_from_storage(deps.as_ref())?;
+                config.update_strategy_denom(response.new_token_denom.clone());
+                config.save_to_storage(&mut deps)?;
 
-    Ok(Response::new().add_attribute("strategy_denom", &response.new_token_denom))
+                Ok(Response::new().add_attribute("strategy_denom", &response.new_token_denom))
+            }
+            _ => Err(ContractError::InvalidReplyId),
+        }
+    }
 }

@@ -1088,6 +1088,7 @@ dependencies = [
  "cw2",
  "osmosis-std",
  "osmosis-test-tube",
+ "serde",
  "thiserror",
 ]
 
