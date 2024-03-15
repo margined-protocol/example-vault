@@ -1255,7 +1255,7 @@ dependencies = [
 [[package]]
 name = "osmosis-test-tube"
 version = "22.1.0"
-source = "git+https://github.com/osmosis-labs/test-tube.git#b93272906a0e3e2ec4b5e2681647f801b456e976"
+source = "git+https://github.com/osmosis-labs/test-tube.git#81152f58adaf3388115fd030a85612bca105b894"
 dependencies = [
  "base64",
  "bindgen",
@@ -2105,7 +2105,7 @@ dependencies = [
 [[package]]
 name = "test-tube"
 version = "0.5.0"
-source = "git+https://github.com/osmosis-labs/test-tube.git#b93272906a0e3e2ec4b5e2681647f801b456e976"
+source = "git+https://github.com/osmosis-labs/test-tube.git#81152f58adaf3388115fd030a85612bca105b894"
 dependencies = [
  "base64",
  "cosmrs",
