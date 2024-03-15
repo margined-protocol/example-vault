@@ -7,7 +7,7 @@
 
 An example vault to demonstrate [Vaultenator][1]
 
-[1]: https://img.shields.io/github/actions/workflow/status/margined-protocol/example-vault/ci.yml?style=for-the-badge
+[1]: https://img.shields.io/github/actions/workflow/status/margined-protocol/example-vault/ci.yml?style=for-the-badge&label=ci
 [2]: https://github.com/margined-protocol/example-vault/actions/workflows/ci.yml
-[3]: https://img.shields.io/github/actions/workflow/status/margined-protocol/example-vault/build.yml?style=for-the-badge
+[3]: https://img.shields.io/github/actions/workflow/status/margined-protocol/example-vault/build.yml?style=for-the-badge&label=build
 [4]: https://github.com/margined-protocol/example-vault/actions/workflows/build.yml
