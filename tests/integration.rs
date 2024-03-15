@@ -1,9 +1,11 @@
 mod helpers;
+extern crate example_vault;
 extern crate margined_vault;
 use cw_vault_standard::{VaultStandardInfoResponse, VaultStandardQueryMsg};
+use example_vault::ExampleConfig;
 use helpers::setup::{ContractTester, TestEnv};
 use margined_vault::msg::{ExtensionQueryMsg, MarginedExtensionQueryMsg, QueryMsg};
-use margined_vault::structs::{ConfigResponse, StateResponse};
+use margined_vault::structs::StateResponse;
 use osmosis_test_tube::{Module, Wasm};
 
 #[test]
@@ -40,8 +42,8 @@ fn query_config() {
 
             let contract_addr = contract_info.addr;
 
-            let config: ConfigResponse = wasm
-                .query(
+            let config = wasm
+                .query::<QueryMsg, ExampleConfig>(
                     &contract_addr,
                     &QueryMsg::VaultExtension(ExtensionQueryMsg::Margined(
                         MarginedExtensionQueryMsg::Config {},
@@ -52,8 +54,9 @@ fn query_config() {
             let expected_strategy_denom =
                 format!("factory/{}/{}", contract_addr, env!("CARGO_PKG_NAME"));
 
-            assert_eq!(config.strategy_denom, expected_strategy_denom);
+            assert_eq!(config.strategy_denom, Some(expected_strategy_denom));
             assert_eq!(config.base_denom, "uosmo".to_string());
+            assert_eq!(config.test, "hello".to_string());
         }
         Err(e) => {
             println!("Test Environment initialization failed: {}", e);
