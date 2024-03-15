@@ -15,7 +15,7 @@ use margined_vault::{
     ownership::Own,
     query::Query,
     reply::ReplyHandler,
-    state::{ManageState, CONFIG, OWNER},
+    state::{ManageState, OWNER},
 };
 
 pub struct ExampleVault;
@@ -74,6 +74,10 @@ impl ManageState for ExampleState {
         self.is_open
     }
 
+    fn is_paused(&self) -> bool {
+        self.is_paused
+    }
+
     fn set_open(&mut self, open: bool) {
         self.is_open = open;
     }
@@ -105,16 +109,15 @@ impl ReplyHandler<ExampleConfig> for ExampleVault {}
 impl Handle<ExampleConfig, ExampleState> for ExampleVault {
     fn handle_update_config(
         &self,
-        deps: DepsMut,
+        mut deps: DepsMut,
         info: MessageInfo,
-        new_config: ExampleConfig,
     ) -> Result<Response, ContractError> {
         OWNER.assert_admin(deps.as_ref(), &info.sender)?;
 
-        let mut config = CONFIG.load(deps.storage)?;
+        let config = ExampleConfig::get_from_storage(deps.as_ref())?;
+        // config.strategy_cap = new_config.strategy_cap;
 
-        config.strategy_cap = new_config.strategy_cap;
-        CONFIG.save(deps.storage, &config)?;
+        config.save_to_storage(&mut deps)?;
 
         Ok(Response::new().add_event(Event::new("update_config")))
     }

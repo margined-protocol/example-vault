@@ -4,14 +4,14 @@ use serde::de::DeserializeOwned;
 use serde::Serialize;
 
 use crate::ownership::OwnerProposal;
-use crate::structs::{Config, State};
-use cosmwasm_std::{ensure, Deps, DepsMut, Env, StdError, StdResult};
+// use crate::structs::{Config, State};
+use cosmwasm_std::{Deps, DepsMut, Env, StdError, StdResult};
 use cw_controllers::Admin;
 
 pub const DEFAULT_STRATEGY_CAP: u128 = 10_000_000_000_000_000_000_000u128;
 pub const OWNER: Admin = Admin::new("owner");
-pub const STATE: Item<State> = Item::new("state");
-pub const CONFIG: Item<Config> = Item::new("config");
+// pub const STATE: Item<State> = Item::new("state");
+// pub const CONFIG: Item<Config> = Item::new("config");
 pub const OWNERSHIP_PROPOSAL: Item<OwnerProposal> = Item::new("ownership_proposals");
 pub const CONTRACT_NAME: &str = env!("CARGO_PKG_NAME");
 pub const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
@@ -20,6 +20,7 @@ pub trait ManageState: Serialize + DeserializeOwned + Sized {
     const STATE_KEY: &'static str;
 
     fn is_open(&self) -> bool;
+    fn is_paused(&self) -> bool;
     fn set_open(&mut self, open: bool);
     fn set_paused(&mut self, paused: bool);
 
@@ -43,20 +44,18 @@ pub trait ManageState: Serialize + DeserializeOwned + Sized {
         let state_item = Item::<Self>::new(Self::STATE_KEY);
         state_item.load(deps.storage).map_err(ContractError::from)
     }
-}
 
-impl State {
-    pub fn is_open_and_unpaused(&self) -> StdResult<()> {
-        ensure!(
-            self.is_open,
-            StdError::generic_err("Cannot perform action as contract is not open")
-        );
-
-        ensure!(
-            !self.is_paused,
-            StdError::generic_err("Cannot perform action as contract is paused")
-        );
-
+    fn is_open_and_unpaused(&self) -> StdResult<()> {
+        if !self.is_open() {
+            return Err(StdError::generic_err(
+                "Cannot perform action as contract is not open",
+            ));
+        }
+        if self.is_paused() {
+            return Err(StdError::generic_err(
+                "Cannot perform action as contract is paused",
+            ));
+        }
         Ok(())
     }
 }

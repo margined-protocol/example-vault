@@ -5,59 +5,58 @@ use crate::config::Configure;
 use crate::contract::Describe;
 use crate::msg::{create_denom_message, InstantiateMsg};
 use crate::state::ManageState;
-use crate::state::CONFIG;
 use crate::state::{CONTRACT_VERSION, OWNER};
-use cosmwasm_std::{DepsMut, Env, MessageInfo, Response, SubMsg, Uint128};
+use cosmwasm_std::{DepsMut, Env, MessageInfo, Response, SubMsg};
 use cw2::set_contract_version;
 
-use osmosis_std::types::{
-    cosmos::base::v1beta1::Coin as OsmosisCoin,
-    osmosis::tokenfactory::v1beta1::{MsgBurn, MsgMint},
-};
+// use osmosis_std::types::{
+//     cosmos::base::v1beta1::Coin as OsmosisCoin,
+//     osmosis::tokenfactory::v1beta1::{MsgBurn, MsgMint},
+// };
 pub const CREATE_STRATEGY_DENOM_REPLY_ID: u64 = 1u64;
 
-pub fn mint_strategy_token(
-    deps: &DepsMut,
-    env: &Env,
-    to: String,
-    amount: Uint128,
-) -> Result<MsgMint, ContractError> {
-    let config = CONFIG.load(deps.storage)?;
-    let strategy_denom = config
-        .strategy_denom
-        .as_ref()
-        .ok_or(ContractError::DenomNotInitialized {})?;
-    let msg = MsgMint {
-        sender: env.contract.address.to_string(),
-        amount: Some(OsmosisCoin {
-            denom: strategy_denom.to_string(),
-            amount: amount.to_string(),
-        }),
-        mint_to_address: to,
-    };
-    Ok(msg)
-}
+// pub fn mint_strategy_token(
+//     deps: &DepsMut,
+//     env: &Env,
+//     to: String,
+//     amount: Uint128,
+// ) -> Result<MsgMint, ContractError> {
+//     let config = CONFIG.load(deps.storage)?;
+//     let strategy_denom = config
+//         .strategy_denom
+//         .as_ref()
+//         .ok_or(ContractError::DenomNotInitialized {})?;
+//     let msg = MsgMint {
+//         sender: env.contract.address.to_string(),
+//         amount: Some(OsmosisCoin {
+//             denom: strategy_denom.to_string(),
+//             amount: amount.to_string(),
+//         }),
+//         mint_to_address: to,
+//     };
+//     Ok(msg)
+// }
 
-pub fn burn_strategy_token(
-    deps: &DepsMut,
-    env: &Env,
-    amount: Uint128,
-) -> Result<MsgBurn, ContractError> {
-    let config = CONFIG.load(deps.storage)?;
-    let strategy_denom = config
-        .strategy_denom
-        .as_ref()
-        .ok_or(ContractError::DenomNotInitialized {})?;
-    let msg = MsgBurn {
-        sender: env.contract.address.to_string(),
-        amount: Some(OsmosisCoin {
-            denom: strategy_denom.to_string(),
-            amount: amount.to_string(),
-        }),
-        burn_from_address: env.contract.address.to_string(),
-    };
-    Ok(msg)
-}
+// pub fn burn_strategy_token(
+//     deps: &DepsMut,
+//     env: &Env,
+//     amount: Uint128,
+// ) -> Result<MsgBurn, ContractError> {
+//     let config = CONFIG.load(deps.storage)?;
+//     let strategy_denom = config
+//         .strategy_denom
+//         .as_ref()
+//         .ok_or(ContractError::DenomNotInitialized {})?;
+//     let msg = MsgBurn {
+//         sender: env.contract.address.to_string(),
+//         amount: Some(OsmosisCoin {
+//             denom: strategy_denom.to_string(),
+//             amount: amount.to_string(),
+//         }),
+//         burn_from_address: env.contract.address.to_string(),
+//     };
+//     Ok(msg)
+// }
 
 // fn check_strategy_cap(
 //     deps: &DepsMut,
@@ -145,7 +144,6 @@ where
         &self,
         deps: DepsMut,
         info: MessageInfo,
-        new_config: C,
     ) -> Result<Response, ContractError>;
 
     fn handle_deposit(
