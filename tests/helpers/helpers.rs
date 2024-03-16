@@ -1,4 +1,3 @@
-// extern crate cw_vault_tokenfactory;
 use osmosis_test_tube::{OsmosisTestApp, SigningAccount, Wasm};
 use std::fs;
 use std::path::PathBuf;
@@ -37,7 +36,6 @@ pub fn store_code(
 ) -> Result<u64, String> {
     let wasm_byte_code_path = wasm_file(contract_name)?;
 
-    println!("Target path: {}", wasm_byte_code_path);
     let wasm_byte_code =
         fs::read(&wasm_byte_code_path).map_err(|e| format!("Failed to read Wasm file: {}", e))?;
 
