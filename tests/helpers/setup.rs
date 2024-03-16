@@ -1,7 +1,11 @@
 use super::helpers::store_code;
 use cosmwasm_std::coin;
-use osmosis_test_tube::{OsmosisTestApp, SigningAccount, Wasm};
-use vaultenator::msg::InstantiateMsg;
+use osmosis_std::types::cosmwasm::wasm::v1::MsgExecuteContractResponse;
+use osmosis_test_tube::{OsmosisTestApp, RunnerExecuteResult, SigningAccount, Wasm};
+use vaultenator::msg::{
+    ExecuteMsg, ExtensionExecuteMsg, InstantiateMsg, MarginedExtensionExecuteMsg,
+};
+const PROPOSAL_DURATION: u64 = 1000;
 
 pub struct TestEnv {
     pub app: OsmosisTestApp,
@@ -45,5 +49,34 @@ impl TestEnv {
         .unwrap()
         .data
         .address
+    }
+
+    pub fn propose_new_owner(
+        &self,
+        wasm: &Wasm<OsmosisTestApp>,
+        contract_addr: &str,
+        new_owner: String,
+        signer: &SigningAccount,
+    ) -> RunnerExecuteResult<MsgExecuteContractResponse> {
+        let propose_new_owner_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Margined(
+            MarginedExtensionExecuteMsg::ProposeNewOwner {
+                new_owner,
+                duration: PROPOSAL_DURATION,
+            },
+        ));
+
+        wasm.execute(contract_addr, &propose_new_owner_msg, &[], signer)
+    }
+
+    pub fn claim_ownership(
+        &self,
+        wasm: &Wasm<OsmosisTestApp>,
+        contract_addr: &str,
+        signer: &SigningAccount,
+    ) -> RunnerExecuteResult<MsgExecuteContractResponse> {
+        let claim_ownership_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Margined(
+            MarginedExtensionExecuteMsg::ClaimOwnership {},
+        ));
+        wasm.execute(contract_addr, &claim_ownership_msg, &[], signer)
     }
 }

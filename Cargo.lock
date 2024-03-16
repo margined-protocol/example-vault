@@ -684,6 +684,7 @@ dependencies = [
  "cosmwasm-std",
  "cw-utils",
  "cw-vault-standard",
+ "osmosis-std",
  "osmosis-test-tube",
  "serde",
  "vaultenator",

@@ -1,4 +1,5 @@
-use osmosis_test_tube::{OsmosisTestApp, SigningAccount, Wasm};
+use osmosis_test_tube::{OsmosisTestApp, RunnerError, SigningAccount, Wasm};
+use std::fmt::Display;
 use std::fs;
 use std::path::PathBuf;
 
@@ -42,4 +43,12 @@ pub fn store_code(
     wasm.store_code(&wasm_byte_code, None, owner)
         .map(|res| res.data.code_id)
         .map_err(|e| format!("Failed to store code: {}", e))
+}
+
+pub fn assert_err(actual: RunnerError, expected: impl Display) {
+    match actual {
+        RunnerError::ExecuteError { msg } => assert!(msg.contains(&expected.to_string())),
+        RunnerError::QueryError { msg } => assert!(msg.contains(&expected.to_string())),
+        _ => panic!("Unhandled error"),
+    }
 }

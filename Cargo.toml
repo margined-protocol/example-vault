@@ -25,6 +25,7 @@ library    = []
 cosmwasm-schema = "2.0.0"
 cosmwasm-std    = "1.5.3"
 cw-utils        = "1.0.3"
+osmosis-std = "0.22.0"
 serde           = "1.0.197"
 vaultenator     = { version = "0.0.1", git = "https://github.com/margined-protocol/vaultenator.git" }
 # vaultenator     = { version = "0.0.1", path = "../vaultenator" }
