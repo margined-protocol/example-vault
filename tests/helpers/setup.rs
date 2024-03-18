@@ -1,11 +1,15 @@
 use super::helpers::store_code;
-use cosmwasm_std::coin;
+use cosmwasm_std::{coin, Addr};
+// use cw_storage_plus::Item;
 use osmosis_std::types::cosmwasm::wasm::v1::MsgExecuteContractResponse;
-use osmosis_test_tube::{OsmosisTestApp, RunnerExecuteResult, SigningAccount, Wasm};
+use osmosis_test_tube::{OsmosisTestApp, RunnerExecuteResult, RunnerResult, SigningAccount, Wasm};
 use vaultenator::msg::{
-    ExecuteMsg, ExtensionExecuteMsg, InstantiateMsg, MarginedExtensionExecuteMsg,
+    ExecuteMsg, ExtensionExecuteMsg, ExtensionQueryMsg, InstantiateMsg,
+    MarginedExtensionExecuteMsg, MarginedExtensionQueryMsg, QueryMsg,
 };
-const PROPOSAL_DURATION: u64 = 1000;
+use vaultenator::ownership::OwnerProposal;
+
+pub const PROPOSAL_DURATION: u64 = 1000;
 
 pub struct TestEnv {
     pub app: OsmosisTestApp,
@@ -56,12 +60,13 @@ impl TestEnv {
         wasm: &Wasm<OsmosisTestApp>,
         contract_addr: &str,
         new_owner: String,
+        duration: u64,
         signer: &SigningAccount,
     ) -> RunnerExecuteResult<MsgExecuteContractResponse> {
         let propose_new_owner_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Margined(
             MarginedExtensionExecuteMsg::ProposeNewOwner {
                 new_owner,
-                duration: PROPOSAL_DURATION,
+                duration,
             },
         ));
 
@@ -78,5 +83,29 @@ impl TestEnv {
             MarginedExtensionExecuteMsg::ClaimOwnership {},
         ));
         wasm.execute(contract_addr, &claim_ownership_msg, &[], signer)
+    }
+
+    pub fn query_owner(
+        &self,
+        wasm: &Wasm<OsmosisTestApp>,
+        contract_addr: &str,
+    ) -> RunnerResult<Addr> {
+        let query_msg = QueryMsg::VaultExtension(ExtensionQueryMsg::Margined(
+            MarginedExtensionQueryMsg::Owner {},
+        ));
+
+        wasm.query(contract_addr, &query_msg)
+    }
+
+    pub fn query_ownership_proposal(
+        &self,
+        wasm: &Wasm<OsmosisTestApp>,
+        contract_addr: &str,
+    ) -> RunnerResult<OwnerProposal> {
+        let query_msg = QueryMsg::VaultExtension(ExtensionQueryMsg::Margined(
+            MarginedExtensionQueryMsg::OwnershipProposal {},
+        ));
+
+        wasm.query(contract_addr, &query_msg)
     }
 }

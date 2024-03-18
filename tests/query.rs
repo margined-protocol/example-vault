@@ -3,8 +3,18 @@ extern crate example_vault;
 use example_vault::MyConfig;
 use example_vault::MyState;
 use helpers::setup::TestEnv;
-use osmosis_test_tube::{Module, Wasm};
+use osmosis_test_tube::{Account, Module, Wasm};
 use vaultenator::msg::{ExtensionQueryMsg, MarginedExtensionQueryMsg, QueryMsg};
+
+#[test]
+fn query_owner() {
+    let env = TestEnv::new();
+    let wasm = Wasm::new(&env.app);
+    let contract_addr = env.deploy_contract(&wasm);
+    let owner = env.query_owner(&wasm, &contract_addr).unwrap();
+
+    assert_eq!(owner.to_string(), env.signer.address());
+}
 
 #[test]
 fn query_config() {
