@@ -28,8 +28,8 @@ cw-storage-plus = "1.2.0"
 cw-utils        = "1.0.3"
 osmosis-std     = "0.22.0"
 serde           = "1.0.197"
-# vaultenator     = { version = "0.0.1", git = "https://github.com/margined-protocol/vaultenator.git" }
-vaultenator = { version = "0.0.1", path = "../vaultenator" }
+vaultenator     = { version = "0.0.1", git = "https://github.com/margined-protocol/vaultenator.git" }
+# vaultenator = { version = "0.0.1", path = "../vaultenator" }
 
 [dev-dependencies]
 cw-vault-standard = "0.4.0"
