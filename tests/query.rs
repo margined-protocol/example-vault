@@ -1,7 +1,7 @@
 mod helpers;
 extern crate example_vault;
-use example_vault::MyConfig;
-use example_vault::MyState;
+use example_vault::config::MyConfig;
+use example_vault::state::MyState;
 use helpers::setup::TestEnv;
 use osmosis_test_tube::{Account, Module, Wasm};
 use vaultenator::msg::{ExtensionQueryMsg, MarginedExtensionQueryMsg, QueryMsg};
