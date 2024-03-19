@@ -76,12 +76,14 @@ impl Configure for MyConfig {
 impl ManageState for MyState {
     const STATE_KEY: &'static str = "state";
 
-    fn is_open(&self) -> bool {
-        self.is_open
+    fn is_contract_open(deps: Deps) -> Result<bool, ContractError> {
+        let state = Self::get_from_storage(deps)?;
+        Ok(state.is_open)
     }
 
-    fn is_paused(&self) -> bool {
-        self.is_paused
+    fn is_contract_paused(deps: Deps) -> Result<bool, ContractError> {
+        let state = Self::get_from_storage(deps)?;
+        Ok(state.is_paused)
     }
 
     fn set_open(&mut self, open: bool) {
