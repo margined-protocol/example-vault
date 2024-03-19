@@ -1,4 +1,5 @@
-use osmosis_test_tube::{OsmosisTestApp, RunnerError, SigningAccount, Wasm};
+use osmosis_std::types::cosmwasm::wasm::v1::MsgExecuteContractResponse;
+use osmosis_test_tube::{ExecuteResponse, OsmosisTestApp, RunnerError, SigningAccount, Wasm};
 use std::fmt::Display;
 use std::fs;
 use std::path::PathBuf;
@@ -51,4 +52,32 @@ pub fn assert_err(actual: RunnerError, expected: impl Display) {
         RunnerError::QueryError { msg } => assert!(msg.contains(&expected.to_string())),
         _ => panic!("Unhandled error"),
     }
+}
+
+pub fn contains_event(
+    response: &ExecuteResponse<MsgExecuteContractResponse>,
+    event_type: &str,
+) -> bool {
+    let event_type_with_prefix = format!("wasm-{}", event_type);
+    response
+        .events
+        .iter()
+        .any(|event| event.ty == event_type_with_prefix)
+}
+
+pub fn contains_event_with_attributes(
+    response: &ExecuteResponse<MsgExecuteContractResponse>,
+    event_type: &str,
+    attributes: Vec<(&str, &str)>,
+) -> bool {
+    let event_type_with_prefix = format!("wasm-{}", event_type);
+    response.events.iter().any(|event| {
+        event.ty == event_type_with_prefix
+            && attributes.iter().all(|(key, value)| {
+                event
+                    .attributes
+                    .iter()
+                    .any(|attr| attr.key == *key && attr.value == *value)
+            })
+    })
 }

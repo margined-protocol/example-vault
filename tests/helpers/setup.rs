@@ -1,6 +1,6 @@
 use super::helpers::store_code;
 use cosmwasm_std::{coin, Addr};
-// use cw_storage_plus::Item;
+use example_vault::MyState;
 use osmosis_std::types::cosmwasm::wasm::v1::MsgExecuteContractResponse;
 use osmosis_test_tube::{OsmosisTestApp, RunnerExecuteResult, RunnerResult, SigningAccount, Wasm};
 use vaultenator::msg::{
@@ -85,6 +85,18 @@ impl TestEnv {
         wasm.execute(contract_addr, &claim_ownership_msg, &[], signer)
     }
 
+    pub fn reject_owner(
+        &self,
+        wasm: &Wasm<OsmosisTestApp>,
+        contract_addr: &str,
+        signer: &SigningAccount,
+    ) -> RunnerExecuteResult<MsgExecuteContractResponse> {
+        let reject_owner_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Margined(
+            MarginedExtensionExecuteMsg::RejectOwner {},
+        ));
+        wasm.execute(contract_addr, &reject_owner_msg, &[], signer)
+    }
+
     pub fn query_owner(
         &self,
         wasm: &Wasm<OsmosisTestApp>,
@@ -107,5 +119,53 @@ impl TestEnv {
         ));
 
         wasm.query(contract_addr, &query_msg)
+    }
+
+    pub fn query_state(
+        &self,
+        wasm: &Wasm<OsmosisTestApp>,
+        contract_addr: &str,
+    ) -> RunnerResult<MyState> {
+        let query_msg = QueryMsg::VaultExtension(ExtensionQueryMsg::Margined(
+            MarginedExtensionQueryMsg::State {},
+        ));
+
+        wasm.query(contract_addr, &query_msg)
+    }
+
+    pub fn set_open(
+        &self,
+        wasm: &Wasm<OsmosisTestApp>,
+        contract_addr: &str,
+        signer: &SigningAccount,
+    ) -> RunnerExecuteResult<MsgExecuteContractResponse> {
+        let set_open_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Margined(
+            MarginedExtensionExecuteMsg::SetOpen {},
+        ));
+        wasm.execute(contract_addr, &set_open_msg, &[], signer)
+    }
+
+    pub fn set_pause(
+        &self,
+        wasm: &Wasm<OsmosisTestApp>,
+        contract_addr: &str,
+        signer: &SigningAccount,
+    ) -> RunnerExecuteResult<MsgExecuteContractResponse> {
+        let set_pause_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Margined(
+            MarginedExtensionExecuteMsg::Pause {},
+        ));
+        wasm.execute(contract_addr, &set_pause_msg, &[], signer)
+    }
+
+    pub fn set_unpause(
+        &self,
+        wasm: &Wasm<OsmosisTestApp>,
+        contract_addr: &str,
+        signer: &SigningAccount,
+    ) -> RunnerExecuteResult<MsgExecuteContractResponse> {
+        let set_unpause_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Margined(
+            MarginedExtensionExecuteMsg::UnPause {},
+        ));
+        wasm.execute(contract_addr, &set_unpause_msg, &[], signer)
     }
 }
