@@ -176,9 +176,9 @@ checksum = "56953345e39537a3e18bdaeba4cb0c58a78c1f61f361dc0fa7c5c7340ae87c5f"
 
 [[package]]
 name = "bs58"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f5353f36341f7451062466f0b755b96ac3a9547e4d7f6b70d603fc721a7d7896"
+checksum = "bf88ba1141d185c399bee5288d850d63b8369520c1eafc32a0430b5b6c287bf4"
 dependencies = [
  "sha2 0.10.8",
 ]
@@ -2330,7 +2330,7 @@ checksum = "a183cf7feeba97b4dd1c0d46788634f6221d87fa961b305bed08c851829efcc0"
 [[package]]
 name = "vaultenator"
 version = "0.0.1"
-source = "git+https://github.com/margined-protocol/vaultenator.git#3e04e23de46bdd19d2656f082995f653011c2e6e"
+source = "git+https://github.com/margined-protocol/vaultenator.git#91ca61003310d701edfd17a033d913247c0d792c"
 dependencies = [
  "cosmwasm-schema 1.5.3",
  "cosmwasm-std",

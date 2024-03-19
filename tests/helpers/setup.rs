@@ -1,8 +1,13 @@
 use super::helpers::store_code;
-use cosmwasm_std::{coin, Addr};
+use cosmwasm_std::{coin, Addr, Coin, Uint128};
+use example_vault::config::MyConfig;
 use example_vault::state::MyState;
 use osmosis_std::types::cosmwasm::wasm::v1::MsgExecuteContractResponse;
-use osmosis_test_tube::{OsmosisTestApp, RunnerExecuteResult, RunnerResult, SigningAccount, Wasm};
+use osmosis_test_tube::{
+    osmosis_std::types::cosmos::bank::v1beta1::{QueryBalanceRequest, QueryTotalSupplyRequest},
+    Bank, Module, OsmosisTestApp, RunnerExecuteResult, RunnerResult, SigningAccount, Wasm,
+};
+use std::str::FromStr;
 use vaultenator::msg::{
     ExecuteMsg, ExtensionExecuteMsg, ExtensionQueryMsg, InstantiateMsg,
     MarginedExtensionExecuteMsg, MarginedExtensionQueryMsg, QueryMsg,
@@ -73,6 +78,20 @@ impl TestEnv {
         wasm.execute(contract_addr, &propose_new_owner_msg, &[], signer)
     }
 
+    pub fn deposit(
+        &self,
+        wasm: &Wasm<OsmosisTestApp>,
+        contract_addr: &str,
+        amount: Coin,
+        signer: &SigningAccount,
+    ) -> RunnerExecuteResult<MsgExecuteContractResponse> {
+        let msg = ExecuteMsg::Deposit {
+            amount: Uint128::one(),
+            recipient: None,
+        };
+        wasm.execute(contract_addr, &msg, &[amount], signer)
+    }
+
     pub fn claim_ownership(
         &self,
         wasm: &Wasm<OsmosisTestApp>,
@@ -116,6 +135,18 @@ impl TestEnv {
     ) -> RunnerResult<OwnerProposal> {
         let query_msg = QueryMsg::VaultExtension(ExtensionQueryMsg::Margined(
             MarginedExtensionQueryMsg::OwnershipProposal {},
+        ));
+
+        wasm.query(contract_addr, &query_msg)
+    }
+
+    pub fn query_config(
+        &self,
+        wasm: &Wasm<OsmosisTestApp>,
+        contract_addr: &str,
+    ) -> RunnerResult<MyConfig> {
+        let query_msg = QueryMsg::VaultExtension(ExtensionQueryMsg::Margined(
+            MarginedExtensionQueryMsg::Config {},
         ));
 
         wasm.query(contract_addr, &query_msg)
@@ -167,5 +198,32 @@ impl TestEnv {
             MarginedExtensionExecuteMsg::UnPause {},
         ));
         wasm.execute(contract_addr, &set_unpause_msg, &[], signer)
+    }
+
+    pub fn get_balance(&self, address: String, denom: String) -> Uint128 {
+        let bank = Bank::new(&self.app);
+
+        let response = bank
+            .query_balance(&QueryBalanceRequest { address, denom })
+            .unwrap();
+
+        match response.balance {
+            Some(balance) => Uint128::from_str(&balance.amount).unwrap(),
+            None => Uint128::zero(),
+        }
+    }
+
+    pub fn get_total_supply(&self, denom: String) -> Uint128 {
+        let bank = Bank::new(&self.app);
+
+        let response = bank
+            .query_total_supply(&QueryTotalSupplyRequest { pagination: None })
+            .unwrap()
+            .supply
+            .into_iter()
+            .find(|coin| coin.denom == denom)
+            .unwrap();
+
+        Uint128::from_str(&response.amount).unwrap_or(Uint128::zero())
     }
 }
