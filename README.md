@@ -27,10 +27,8 @@ implementation of the [CosmWasm Vault Standard][2] with a TokenFactory used to
 represent a share of the vault.
 
 [Vaultenator][1] is based on traits and this minimal vault implements some of
-these traits and uses the defaults for others. The example vault showcases a
-minimal implementation whilst using default implementations for standard
-functionality. Implementers are free to add their own implementations of any of
-these traits should functionality differ.
+these traits and uses the defaults for others. Implementers are free to add
+their own implementations of any of these traits should functionality differ.
 
 | Trait        | Default? | Implementation  |
 | ------------ | -------- | --------------- |
