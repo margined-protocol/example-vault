@@ -4,7 +4,6 @@ use cosmwasm_std::{coin, Uint128};
 
 use helpers::setup::TestEnv;
 use osmosis_test_tube::{Account, Module, Wasm};
-use vaultenator::errors::ContractError;
 
 #[test]
 fn deposit() {
@@ -15,15 +14,16 @@ fn deposit() {
     env.deposit(&wasm, &contract_addr, amount, &env.signer)
         .unwrap();
     let config = env.query_config(&wasm, &contract_addr).unwrap();
-    let strategy_denom = config
-        .strategy_denom
-        .ok_or(ContractError::DenomNotInitialized {});
+    let strategy_denom = config.strategy_denom.unwrap();
 
     let signer_strategy_denom_balance =
-        env.get_balance(env.signer.address(), strategy_denom.unwrap());
+        env.get_balance(env.signer.address(), strategy_denom.clone());
 
     let contract_base_denom_balance = env.get_balance(contract_addr, config.base_denom);
 
+    let base_denom_total_supply = env.get_total_supply(strategy_denom);
+
+    assert_eq!(base_denom_total_supply, Uint128::from(20_000_000u128));
     assert_eq!(signer_strategy_denom_balance, Uint128::from(20_000_000u128));
     assert_eq!(contract_base_denom_balance, Uint128::from(20_000_000u128));
 }
