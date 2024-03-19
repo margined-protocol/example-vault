@@ -881,9 +881,9 @@ dependencies = [
 
 [[package]]
 name = "hashbrown"
-version = "0.14.3"
+version = "0.14.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "290f1a1d9242c78d09ce40a5e87e7554ee637af1351968159f4952f028f75604"
+checksum = "e57fa0ae458eb99874f54c09f4f9174f8b45fb87e854536a4e608696247f0c23"
 
 [[package]]
 name = "hermit-abi"
@@ -1010,7 +1010,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7b0b929d511467233429c45a44ac1dcaa21ba0f5ba11e4879e6ed28ddb4f9df4"
 dependencies = [
  "equivalent",
- "hashbrown 0.14.3",
+ "hashbrown 0.14.4",
 ]
 
 [[package]]
@@ -1258,7 +1258,8 @@ dependencies = [
 [[package]]
 name = "osmosis-test-tube"
 version = "22.1.0"
-source = "git+https://github.com/osmosis-labs/test-tube.git#182d9f7a2b06e5d564f58a9f1dba765184885889"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a082b97136d15470a37aa758f227c865594590b69d74721248ed5adf59bf1ca2"
 dependencies = [
  "base64",
  "bindgen",
@@ -1524,9 +1525,9 @@ checksum = "c08c74e62047bb2de4ff487b251e4a92e24f48745648451635cec7d591162d9f"
 
 [[package]]
 name = "reqwest"
-version = "0.11.26"
+version = "0.11.27"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "78bf93c4af7a8bb7d879d51cebe797356ff10ae8516ace542b5182d9dcac10b2"
+checksum = "dd67538700a17451e7cba03ac727fb961abb7607553461627b97de0b89cf4a62"
 dependencies = [
  "base64",
  "bytes",
@@ -2108,7 +2109,8 @@ dependencies = [
 [[package]]
 name = "test-tube"
 version = "0.5.0"
-source = "git+https://github.com/osmosis-labs/test-tube.git#182d9f7a2b06e5d564f58a9f1dba765184885889"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "09184c7655b2bdaf4517b06141a2e4c44360904f2706a05b24c831bd97ad1db6"
 dependencies = [
  "base64",
  "cosmrs",

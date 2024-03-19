@@ -34,5 +34,5 @@ vaultenator     = { version = "0.0.1", git = "https://github.com/margined-protoc
 
 [dev-dependencies]
 cw-vault-standard = "0.4.0"
-osmosis-test-tube = { git = "https://github.com/osmosis-labs/test-tube.git" }
-# osmosis-test-tube = "22.1.0"
+# osmosis-test-tube = { git = "https://github.com/osmosis-labs/test-tube.git" }
+osmosis-test-tube = "22.1.0"

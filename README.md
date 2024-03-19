@@ -32,15 +32,15 @@ their own implementations of any of these traits should functionality differ.
 
 | Trait        | Default? | Implementation  |
 | ------------ | -------- | --------------- |
-| Own          | Yes      |                 |
 | Administer   | Yes      |                 |
-| Query        | Yes      |                 |
-| ReplyHandler | Yes      |                 |
-| Vaultenator  | Yes      |                 |
 | Config       | No       | src/config.rs   |
 | Describe     | No       | src/describe.rs |
 | Handle       | No       | src/handle.rs   |
 | ManageState  | No       | src/state.rs    |
+| Own          | Yes      |                 |
+| Query        | Yes      |                 |
+| ReplyHandler | Yes      |                 |
+| Vaultenator  | Yes      |                 |
 
 [1]: https://github.com/margined-protocol/vaultenator
 [2]: https://github.com/apollodao/cw-vault-standard
