@@ -1,6 +1,6 @@
 use super::helpers::store_code;
 use cosmwasm_std::{coin, Addr};
-use example_vault::MyState;
+use example_vault::state::MyState;
 use osmosis_std::types::cosmwasm::wasm::v1::MsgExecuteContractResponse;
 use osmosis_test_tube::{OsmosisTestApp, RunnerExecuteResult, RunnerResult, SigningAccount, Wasm};
 use vaultenator::msg::{
