@@ -1,10 +1,10 @@
 [package]
 authors      = ["shapeshed <go@margined.io>"]
 categories   = ["wasm"]
-description  = "Example implementation of Margined Vault"
+description  = "Example implementation using Vaultenator"
 edition      = "2021"
 homepage     = "https://github.com/margined-protocol/example-vault"
-keywords     = ["cosmos", "osmosis", "vault"]
+keywords     = ["cosmos", "osmosis", "vault", "vaultenator"]
 license      = "MIT OR Apache-2.0"
 name         = "example-vault"
 publish      = false
