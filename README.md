@@ -15,6 +15,8 @@ An example vault to demonstrate [Vaultenator][1]
 ## Installation
 
 ```sh
+git clone https://github.com/margined-protocol/example-vault.git
+cd example-vault
 rustup show
 cargo wasm # compile contract
 cargo test # run tests
@@ -31,27 +33,34 @@ issues a share token and holds the deposit on the contract.
 these traits and uses the defaults for others. Implementers are free to add
 their own implementations of any of these traits should functionality differ.
 
-| Trait        | Default? | Implementation  |
-| ------------ | -------- | --------------- |
-| Administer   | Yes      |                 |
-| Configure    | No       | src/config.rs   |
-| Describe     | No       | src/describe.rs |
-| Handle       | No       | src/handle.rs   |
-| ManageState  | No       | src/state.rs    |
-| Own          | Yes      |                 |
-| Query        | Yes      |                 |
-| ReplyHandler | Yes      |                 |
-| Vaultenator  | Yes      |                 |
+| Trait          | Default? | Implementation  |
+| -------------- | -------- | --------------- |
+| `Administer`   | Yes      |                 |
+| `Configure`    | No       | src/config.rs   |
+| `Describe`     | No       | src/describe.rs |
+| `Handle`       | No       | src/handle.rs   |
+| `ManageState`  | No       | src/state.rs    |
+| `Own`          | Yes      |                 |
+| `Query`        | Yes      |                 |
+| `ReplyHandler` | Yes      |                 |
+| `Vaultenator`  | Yes      |                 |
 
 ## Using Vaultenator
 
-To go beyond this simple example and create a vault using Vaultenator you will
-likely want to implement the following traits as a minimum
+First add vaultenator to your existing cargo project
 
-- Configure - define a config struct and its management
-- State - define a state struct and its management
-- Handle - implement `handle_deposit` and `handle_redeem`.
-- Describe - this is metadata used by the [CosmWasm Vault Standard][2].
+```sh
+cargo add vaultenator
+```
+
+To create a vault using Vaultenator you will likely want to implement the
+following traits as a minimum. See this example vault as a guide.
+
+- `Configure` - define a config struct and its management
+- `State` - define a state struct and its management
+- `Handle` - implement `handle_deposit`, `handle_redeem` and any other handlers
+  you want to implement.
+- `Describe` - this is metadata used by the [CosmWasm Vault Standard][2].
 
 ## Testing
 
