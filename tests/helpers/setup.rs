@@ -9,8 +9,8 @@ use osmosis_test_tube::{
 };
 use std::str::FromStr;
 use vaultenator::msg::{
-    ExecuteMsg, ExtensionExecuteMsg, ExtensionQueryMsg, InstantiateMsg,
-    MarginedExtensionExecuteMsg, MarginedExtensionQueryMsg, QueryMsg,
+    ExecuteMsg, ExtensionExecuteMsg, ExtensionQueryMsg, InstantiateMsg, QueryMsg,
+    VaultenatorExtensionExecuteMsg, VaultenatorExtensionQueryMsg,
 };
 use vaultenator::ownership::OwnerProposal;
 
@@ -68,8 +68,8 @@ impl TestEnv {
         duration: u64,
         signer: &SigningAccount,
     ) -> RunnerExecuteResult<MsgExecuteContractResponse> {
-        let propose_new_owner_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Margined(
-            MarginedExtensionExecuteMsg::ProposeNewOwner {
+        let propose_new_owner_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Vaultenator(
+            VaultenatorExtensionExecuteMsg::ProposeNewOwner {
                 new_owner,
                 duration,
             },
@@ -112,8 +112,8 @@ impl TestEnv {
         contract_addr: &str,
         signer: &SigningAccount,
     ) -> RunnerExecuteResult<MsgExecuteContractResponse> {
-        let claim_ownership_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Margined(
-            MarginedExtensionExecuteMsg::ClaimOwnership {},
+        let claim_ownership_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Vaultenator(
+            VaultenatorExtensionExecuteMsg::ClaimOwnership {},
         ));
         wasm.execute(contract_addr, &claim_ownership_msg, &[], signer)
     }
@@ -124,8 +124,8 @@ impl TestEnv {
         contract_addr: &str,
         signer: &SigningAccount,
     ) -> RunnerExecuteResult<MsgExecuteContractResponse> {
-        let reject_owner_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Margined(
-            MarginedExtensionExecuteMsg::RejectOwner {},
+        let reject_owner_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Vaultenator(
+            VaultenatorExtensionExecuteMsg::RejectOwner {},
         ));
         wasm.execute(contract_addr, &reject_owner_msg, &[], signer)
     }
@@ -135,8 +135,8 @@ impl TestEnv {
         wasm: &Wasm<OsmosisTestApp>,
         contract_addr: &str,
     ) -> RunnerResult<Addr> {
-        let query_msg = QueryMsg::VaultExtension(ExtensionQueryMsg::Margined(
-            MarginedExtensionQueryMsg::Owner {},
+        let query_msg = QueryMsg::VaultExtension(ExtensionQueryMsg::Vaultenator(
+            VaultenatorExtensionQueryMsg::Owner {},
         ));
 
         wasm.query(contract_addr, &query_msg)
@@ -147,8 +147,8 @@ impl TestEnv {
         wasm: &Wasm<OsmosisTestApp>,
         contract_addr: &str,
     ) -> RunnerResult<OwnerProposal> {
-        let query_msg = QueryMsg::VaultExtension(ExtensionQueryMsg::Margined(
-            MarginedExtensionQueryMsg::OwnershipProposal {},
+        let query_msg = QueryMsg::VaultExtension(ExtensionQueryMsg::Vaultenator(
+            VaultenatorExtensionQueryMsg::OwnershipProposal {},
         ));
 
         wasm.query(contract_addr, &query_msg)
@@ -159,8 +159,8 @@ impl TestEnv {
         wasm: &Wasm<OsmosisTestApp>,
         contract_addr: &str,
     ) -> RunnerResult<MyConfig> {
-        let query_msg = QueryMsg::VaultExtension(ExtensionQueryMsg::Margined(
-            MarginedExtensionQueryMsg::Config {},
+        let query_msg = QueryMsg::VaultExtension(ExtensionQueryMsg::Vaultenator(
+            VaultenatorExtensionQueryMsg::Config {},
         ));
 
         wasm.query(contract_addr, &query_msg)
@@ -171,8 +171,8 @@ impl TestEnv {
         wasm: &Wasm<OsmosisTestApp>,
         contract_addr: &str,
     ) -> RunnerResult<MyState> {
-        let query_msg = QueryMsg::VaultExtension(ExtensionQueryMsg::Margined(
-            MarginedExtensionQueryMsg::State {},
+        let query_msg = QueryMsg::VaultExtension(ExtensionQueryMsg::Vaultenator(
+            VaultenatorExtensionQueryMsg::State {},
         ));
 
         wasm.query(contract_addr, &query_msg)
@@ -184,8 +184,8 @@ impl TestEnv {
         contract_addr: &str,
         signer: &SigningAccount,
     ) -> RunnerExecuteResult<MsgExecuteContractResponse> {
-        let set_open_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Margined(
-            MarginedExtensionExecuteMsg::SetOpen {},
+        let set_open_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Vaultenator(
+            VaultenatorExtensionExecuteMsg::SetOpen {},
         ));
         wasm.execute(contract_addr, &set_open_msg, &[], signer)
     }
@@ -196,8 +196,8 @@ impl TestEnv {
         contract_addr: &str,
         signer: &SigningAccount,
     ) -> RunnerExecuteResult<MsgExecuteContractResponse> {
-        let set_pause_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Margined(
-            MarginedExtensionExecuteMsg::Pause {},
+        let set_pause_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Vaultenator(
+            VaultenatorExtensionExecuteMsg::Pause {},
         ));
         wasm.execute(contract_addr, &set_pause_msg, &[], signer)
     }
@@ -208,8 +208,8 @@ impl TestEnv {
         contract_addr: &str,
         signer: &SigningAccount,
     ) -> RunnerExecuteResult<MsgExecuteContractResponse> {
-        let set_unpause_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Margined(
-            MarginedExtensionExecuteMsg::UnPause {},
+        let set_unpause_msg = ExecuteMsg::VaultExtension(ExtensionExecuteMsg::Vaultenator(
+            VaultenatorExtensionExecuteMsg::UnPause {},
         ));
         wasm.execute(contract_addr, &set_unpause_msg, &[], signer)
     }
