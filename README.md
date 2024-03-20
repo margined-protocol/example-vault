@@ -23,8 +23,9 @@ cargo test # run tests
 ## Overview
 
 This example vault showcases [Vaultenator][1] and offers a minimal
-implementation of the [CosmWasm Vault Standard][2] with a TokenFactory used to
-represent a share of the vault.
+implementation of the [CosmWasm Vault Standard][2] with a TokenFactory token
+used to represent a share of the vault. This example vault takes a deposit,
+issues a share token and holds the deposit on the contract.
 
 [Vaultenator][1] is based on traits and this minimal vault implements some of
 these traits and uses the defaults for others. Implementers are free to add
@@ -33,7 +34,7 @@ their own implementations of any of these traits should functionality differ.
 | Trait        | Default? | Implementation  |
 | ------------ | -------- | --------------- |
 | Administer   | Yes      |                 |
-| Config       | No       | src/config.rs   |
+| Configure    | No       | src/config.rs   |
 | Describe     | No       | src/describe.rs |
 | Handle       | No       | src/handle.rs   |
 | ManageState  | No       | src/state.rs    |
@@ -42,5 +43,22 @@ their own implementations of any of these traits should functionality differ.
 | ReplyHandler | Yes      |                 |
 | Vaultenator  | Yes      |                 |
 
+## Using Vaultenator
+
+To go beyond this simple example and create a vault using Vaultenator you will
+likely want to implement the following traits as a minimum
+
+- Configure - define a config struct and its management
+- State - define a state struct and its management
+- Handle - implement `handle_deposit` and `handle_redeem`.
+- Describe - this is metadata used by the [CosmWasm Vault Standard][2].
+
+## Testing
+
+Any test framework will work with Vaultenator but [test-tube][3] is recommended.
+An example test suite is given in the `./tests` folder of this repo including
+some useful helpers.
+
 [1]: https://github.com/margined-protocol/vaultenator
 [2]: https://github.com/apollodao/cw-vault-standard
+[3]: https://github.com/osmosis-labs/test-tube
