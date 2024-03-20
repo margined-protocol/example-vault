@@ -92,6 +92,20 @@ impl TestEnv {
         wasm.execute(contract_addr, &msg, &[amount], signer)
     }
 
+    pub fn redeem(
+        &self,
+        wasm: &Wasm<OsmosisTestApp>,
+        contract_addr: &str,
+        amount: Coin,
+        signer: &SigningAccount,
+    ) -> RunnerExecuteResult<MsgExecuteContractResponse> {
+        let msg = ExecuteMsg::Redeem {
+            amount: Uint128::one(),
+            recipient: None,
+        };
+        wasm.execute(contract_addr, &msg, &[amount], signer)
+    }
+
     pub fn claim_ownership(
         &self,
         wasm: &Wasm<OsmosisTestApp>,
@@ -200,11 +214,14 @@ impl TestEnv {
         wasm.execute(contract_addr, &set_unpause_msg, &[], signer)
     }
 
-    pub fn get_balance(&self, address: String, denom: String) -> Uint128 {
+    pub fn get_balance(&self, address: &str, denom: &str) -> Uint128 {
         let bank = Bank::new(&self.app);
 
         let response = bank
-            .query_balance(&QueryBalanceRequest { address, denom })
+            .query_balance(&QueryBalanceRequest {
+                address: address.to_string(),
+                denom: denom.to_string(),
+            })
             .unwrap();
 
         match response.balance {
@@ -213,7 +230,7 @@ impl TestEnv {
         }
     }
 
-    pub fn get_total_supply(&self, denom: String) -> Uint128 {
+    pub fn get_total_supply(&self, denom: &str) -> Uint128 {
         let bank = Bank::new(&self.app);
 
         let response = bank
@@ -221,7 +238,7 @@ impl TestEnv {
             .unwrap()
             .supply
             .into_iter()
-            .find(|coin| coin.denom == denom)
+            .find(|coin| coin.denom == denom.to_string())
             .unwrap();
 
         Uint128::from_str(&response.amount).unwrap_or(Uint128::zero())
