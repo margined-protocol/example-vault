@@ -4,7 +4,7 @@ use example_vault::config::MyConfig;
 use example_vault::state::MyState;
 use helpers::setup::TestEnv;
 use osmosis_test_tube::{Account, Module, Wasm};
-use vaultenator::msg::{ExtensionQueryMsg, MarginedExtensionQueryMsg, QueryMsg};
+use vaultenator::msg::{ExtensionQueryMsg, QueryMsg, VaultenatorExtensionQueryMsg};
 
 #[test]
 fn query_owner() {
@@ -25,8 +25,8 @@ fn query_config() {
     let config = wasm
         .query::<QueryMsg, MyConfig>(
             &contract_addr,
-            &QueryMsg::VaultExtension(ExtensionQueryMsg::Margined(
-                MarginedExtensionQueryMsg::Config {},
+            &QueryMsg::VaultExtension(ExtensionQueryMsg::Vaultenator(
+                VaultenatorExtensionQueryMsg::Config {},
             )),
         )
         .unwrap();
@@ -47,8 +47,8 @@ fn query_state() {
     let state: MyState = wasm
         .query(
             &contract_addr,
-            &QueryMsg::VaultExtension(ExtensionQueryMsg::Margined(
-                MarginedExtensionQueryMsg::State {},
+            &QueryMsg::VaultExtension(ExtensionQueryMsg::Vaultenator(
+                VaultenatorExtensionQueryMsg::State {},
             )),
         )
         .unwrap();
