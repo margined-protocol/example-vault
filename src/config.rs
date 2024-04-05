@@ -1,7 +1,9 @@
+use crate::msg::InstantiateMsg;
 use cosmwasm_schema::cw_serde;
+use serde::{de::DeserializeOwned, Serialize};
+
 use vaultenator::config::Configure;
 use vaultenator::errors::ContractError;
-use vaultenator::msg::InstantiateMsg;
 
 use cosmwasm_std::{DepsMut, Uint128};
 
@@ -20,15 +22,25 @@ impl Configure for MyConfig {
         self.strategy_denom = Some(denom);
     }
 
-    fn init_config(deps: &mut DepsMut, msg: &InstantiateMsg) -> Result<Self, ContractError> {
+    fn init_config<M>(deps: &mut DepsMut, msg: &M) -> Result<Self, ContractError>
+    where
+        M: Serialize + DeserializeOwned,
+    {
+        let instantiate_msg: InstantiateMsg = serde_json::from_slice(
+            &serde_json::to_vec(msg).map_err(|_| ContractError::InvalidMessage {})?,
+        )
+        .map_err(|_| ContractError::InvalidMessage {})?;
+
         let config = Self {
+            // Initialize fields from `instantiate_msg`
             strategy_cap: Uint128::zero(),
             strategy_denom: None,
-            base_denom: msg.base_denom.clone(),
+            base_denom: instantiate_msg.base_denom.clone(),
             test: "hello".to_string(),
         };
 
-        Self::save_to_storage(&config, deps)?;
+        config.save_to_storage(deps)?;
+
         Ok(config)
     }
 }

@@ -1,4 +1,5 @@
 use crate::config::MyConfig;
+use crate::msg::InstantiateMsg;
 use crate::state::MyState;
 use cosmwasm_std::{
     entry_point, Binary, Deps, DepsMut, Env, MessageInfo, Reply, Response, StdResult,
@@ -8,7 +9,7 @@ use vaultenator::{
     admin::Administer,
     contract::Vaultenator,
     errors::ContractError,
-    msg::{ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg},
+    msg::{ExecuteMsg, MigrateMsg, QueryMsg},
     ownership::Own,
     query::Query,
     reply::ReplyHandler,
