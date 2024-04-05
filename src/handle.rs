@@ -1,16 +1,51 @@
 use crate::config::MyConfig;
 use crate::contract::MyVault;
 use crate::state::MyState;
-use cosmwasm_std::{coin, BankMsg, CosmosMsg, DepsMut, Env, Event, MessageInfo, Response};
+use cosmwasm_std::{coin, BankMsg, CosmosMsg, DepsMut, Env, Event, MessageInfo, Response, SubMsg};
+use cw2::set_contract_version;
 use cw_utils::must_pay;
 use osmosis_std::types::cosmos::base::v1beta1::Coin as OsmosisCoin;
 use osmosis_std::types::osmosis::tokenfactory::v1beta1::{MsgBurn, MsgMint};
+use serde::{de::DeserializeOwned, Serialize};
 use vaultenator::config::Configure;
+use vaultenator::contract::Describe;
 use vaultenator::errors::ContractError;
-use vaultenator::handlers::Handle;
+use vaultenator::handlers::{Handle, CREATE_STRATEGY_DENOM_REPLY_ID};
+use vaultenator::msg::create_denom_message;
 use vaultenator::state::{ManageState, OWNER};
 
 impl Handle<MyConfig, MyState> for MyVault {
+    fn handle_instantiate<M>(
+        &self,
+        mut deps: DepsMut,
+        env: Env,
+        info: MessageInfo,
+        msg: M,
+    ) -> Result<Response, ContractError>
+    where
+        M: Serialize + DeserializeOwned,
+    {
+        set_contract_version(
+            deps.storage,
+            format!("crates.io:{}", Self::CONTRACT_NAME),
+            env!("CARGO_PKG_VERSION"),
+        )?;
+
+        MyConfig::init_config(&mut deps, &msg)?;
+        MyState::init_state(&mut deps, &env)?;
+
+        OWNER.set(deps, Some(info.sender))?;
+
+        let create_denom_sub_msg = SubMsg::reply_always(
+            create_denom_message(&env.contract.address, Self::CONTRACT_NAME.to_string()),
+            CREATE_STRATEGY_DENOM_REPLY_ID,
+        );
+
+        Ok(Response::new()
+            .add_submessages([create_denom_sub_msg])
+            .add_attribute("action", "instantiate"))
+    }
+
     fn handle_update_config(
         &self,
         deps: DepsMut,
