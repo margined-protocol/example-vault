@@ -2333,9 +2333,9 @@ checksum = "a183cf7feeba97b4dd1c0d46788634f6221d87fa961b305bed08c851829efcc0"
 
 [[package]]
 name = "vaultenator"
-version = "0.0.3"
+version = "0.0.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e350c8ff21b48bef6371828fa859374635460f2bddb84c42581c7650165e990e"
+checksum = "9d3c130ceef1a572f3ce40f6e77526d7caa729c258a4cbcffe2aea478242e4a9"
 dependencies = [
  "cosmwasm-schema 1.5.3",
  "cosmwasm-std",
