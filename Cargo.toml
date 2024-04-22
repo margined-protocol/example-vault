@@ -35,4 +35,4 @@ vaultenator     = "0.0.3"
 
 [dev-dependencies]
 cw-vault-standard = "0.4.0"
-osmosis-test-tube = "22.1.0"
+osmosis-test-tube = "24.0.1"
