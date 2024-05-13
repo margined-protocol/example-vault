@@ -30,7 +30,7 @@ cw-utils        = "1.0.3"
 cw2             = "1.1.2"
 osmosis-std     = "0.22.0"
 serde           = "1.0.197"
-serde_json      = "1.0.115"
+serde_json      = "1.0.117"
 vaultenator     = "0.0.3"
 
 [dev-dependencies]
