@@ -492,6 +492,18 @@ dependencies = [
 
 [[package]]
 name = "cw-vault-standard"
+version = "0.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "908934004eb811c72acd4d2d4f6d936695a7e9236815c01c4b6ce3f47c29d272"
+dependencies = [
+ "cosmwasm-schema 1.5.3",
+ "cosmwasm-std",
+ "schemars",
+ "serde",
+]
+
+[[package]]
+name = "cw-vault-standard"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9e70a60d4a86860d6b51908201339530c47ef7bfc4fb137f9f9f54468124d35d"
@@ -685,9 +697,9 @@ dependencies = [
  "cw-controllers",
  "cw-storage-plus",
  "cw-utils",
- "cw-vault-standard",
+ "cw-vault-standard 0.4.0",
  "cw2",
- "osmosis-std",
+ "osmosis-std 0.22.0",
  "osmosis-test-tube",
  "serde",
  "serde_json",
@@ -1245,6 +1257,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "osmosis-std"
+version = "0.24.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "30a7a605885934d9bcfcd544f4e2098365725974522cbf8d696f65c5bb8047b3"
+dependencies = [
+ "chrono",
+ "cosmwasm-std",
+ "osmosis-std-derive",
+ "prost 0.12.3",
+ "prost-types 0.12.3",
+ "schemars",
+ "serde",
+ "serde-cw-value",
+]
+
+[[package]]
 name = "osmosis-std-derive"
 version = "0.20.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1267,7 +1295,7 @@ dependencies = [
  "bindgen",
  "cosmrs",
  "cosmwasm-std",
- "osmosis-std",
+ "osmosis-std 0.22.0",
  "prost 0.12.3",
  "serde",
  "serde_json",
@@ -2117,7 +2145,7 @@ dependencies = [
  "base64",
  "cosmrs",
  "cosmwasm-std",
- "osmosis-std",
+ "osmosis-std 0.22.0",
  "prost 0.12.3",
  "serde",
  "serde_json",
@@ -2333,19 +2361,20 @@ checksum = "a183cf7feeba97b4dd1c0d46788634f6221d87fa961b305bed08c851829efcc0"
 
 [[package]]
 name = "vaultenator"
-version = "0.0.3"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e350c8ff21b48bef6371828fa859374635460f2bddb84c42581c7650165e990e"
+checksum = "2303741d1b509a7866dabbc9d940cec6975d76d2183ef75196b1423b45de1cda"
 dependencies = [
  "cosmwasm-schema 1.5.3",
  "cosmwasm-std",
  "cw-controllers",
  "cw-storage-plus",
  "cw-utils",
- "cw-vault-standard",
+ "cw-vault-standard 0.3.3",
  "cw2",
- "osmosis-std",
+ "osmosis-std 0.24.0",
  "serde",
+ "serde_json",
  "thiserror",
 ]
 
